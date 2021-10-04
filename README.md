@@ -1,5 +1,5 @@
 # Todo-App 
-An application made using Material UI i flutter with some concepts of Dart.
+An application made using Material UI in flutter with some concepts of Dart.
 
 A few resources to get you started if this is your first Flutter project:
 
