@@ -107,8 +107,9 @@ class HomePage extends State<MyApp> {
   }
 
   String get = '';
-  List lst = [];
+  int getint = 0;
   int num = 0;
+  List lst = [];
   TextEditingController txt = TextEditingController();
   submit() {
     setState(() {
@@ -118,13 +119,13 @@ class HomePage extends State<MyApp> {
 
   remove() {
     setState(() {
-      lst.removeAt(num);
+      lst.removeAt(getint);
     });
   }
 
   update() {
     setState(() {
-      lst.insert(num, get);
+      lst.insert(getint, get);
     });
   }
 
@@ -135,18 +136,30 @@ class HomePage extends State<MyApp> {
           return SimpleDialog(
             children: [
               TextField(
+                autofocus: true,
                 controller: txt,
                 onChanged: (value) {
                   get = value;
                 },
               ),
-              SimpleDialogOption(
-                child: const Text('Hellwo'),
-                onPressed: () {
-                  submit();
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => MyApp()));
-                },
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    child: const Icon(Icons.add),
+                    onPressed: () {
+                      submit();
+                      txt.clear();
+
+                      Navigator.of(context, rootNavigator: true)
+                          .pop(HomePage());
+                    },
+                  ),
+                ],
               ),
             ],
           );
@@ -160,24 +173,35 @@ class HomePage extends State<MyApp> {
           return SimpleDialog(
             children: [
               TextField(
+                keyboardType: TextInputType.number,
+                autofocus: true,
                 controller: txt,
-                onChanged: (value) {
-                  num = value as int;
+                onChanged: (a) {
+                  getint = a as int;
                 },
               ),
               TextField(
-                controller: txt,
                 onChanged: (value) {
                   get = value;
                 },
               ),
-              SimpleDialogOption(
-                child: const Text('Hellwo'),
-                onPressed: () {
-                  update();
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => MyApp()));
-                },
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    child: const Icon(Icons.update),
+                    onPressed: () {
+                      update();
+                      txt.clear();
+                      Navigator.of(context, rootNavigator: true)
+                          .pop(HomePage());
+                    },
+                  ),
+                ],
               ),
             ],
           );
@@ -191,18 +215,30 @@ class HomePage extends State<MyApp> {
           return SimpleDialog(
             children: [
               TextField(
+                autofocus: true,
+                keyboardType: TextInputType.number,
                 controller: txt,
                 onChanged: (value) {
-                  num = value as int;
+                  getint = value as int;
                 },
               ),
-              SimpleDialogOption(
-                child: const Text('Hellwo'),
-                onPressed: () {
-                  remove();
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => MyApp()));
-                },
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    child: const Icon(Icons.delete),
+                    onPressed: () {
+                      remove();
+                      txt.clear();
+                      Navigator.of(context, rootNavigator: true)
+                          .pop(HomePage());
+                    },
+                  ),
+                ],
               ),
             ],
           );
