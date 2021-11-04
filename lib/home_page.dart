@@ -32,6 +32,17 @@ class HomePage extends State<MyApp> {
             top: 40,
             left: 20,
           ),
+          Positioned(
+            child: FloatingActionButton(
+              child: const Icon(Icons.add, size: 20, color: Colors.white),
+              backgroundColor: Colors.pinkAccent,
+              onPressed: () {
+                add();
+              },
+            ),
+            top: 280,
+            right: 30,
+          ),
           DraggableScrollableSheet(
             maxChildSize: 0.85,
             builder: (BuildContext context, ScrollController scrollcontianer) {
@@ -45,61 +56,29 @@ class HomePage extends State<MyApp> {
                     child: ListView.builder(
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(
-                            "Task No ${index + 1}",
-                            style: TextStyle(
-                                color: Colors.grey[900],
-                                fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            lst[index],
-                            style: TextStyle(
-                              color: Colors.grey[700],
+                            title: Text(
+                              "Task No ${index + 1}",
+                              style: TextStyle(
+                                  color: Colors.grey[900],
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          trailing: const Icon(Icons.check_circle,
-                              color: Colors.greenAccent),
-                          isThreeLine: true,
-                        );
+                            subtitle: Text(
+                              lst[index],
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete,
+                                  color: Colors.greenAccent),
+                              onPressed: () {
+                                delete();
+                              },
+                            ));
                       },
                       controller: scrollcontianer,
                       itemCount: lst.length,
                     )),
-                Positioned(
-                  child: FloatingActionButton(
-                    child: const Icon(Icons.add, size: 20, color: Colors.white),
-                    backgroundColor: Colors.pinkAccent,
-                    onPressed: () {
-                      add();
-                    },
-                  ),
-                  top: -10,
-                  right: 30,
-                ),
-                Positioned(
-                  child: FloatingActionButton(
-                    child:
-                        const Icon(Icons.delete, color: Colors.white, size: 20),
-                    backgroundColor: Colors.pinkAccent,
-                    onPressed: () {
-                      delete();
-                    },
-                  ),
-                  top: -10,
-                  right: 100,
-                ),
-                Positioned(
-                  child: FloatingActionButton(
-                    child: const Icon(Icons.upgrade,
-                        color: Colors.white, size: 20),
-                    backgroundColor: Colors.pinkAccent,
-                    onPressed: () {
-                      edit();
-                    },
-                  ),
-                  top: -10,
-                  right: 170,
-                )
               ]);
             },
           )
@@ -107,8 +86,8 @@ class HomePage extends State<MyApp> {
   }
 
   String get = '';
+  String getx = "";
   int getint = 0;
-  int num = 0;
   List lst = [];
   TextEditingController txt = TextEditingController();
   submit() {
@@ -125,7 +104,8 @@ class HomePage extends State<MyApp> {
 
   update() {
     setState(() {
-      lst.insert(getint, get);
+      String abc = submit();
+      abc.replaceAll(get, getx);
     });
   }
 
@@ -134,8 +114,16 @@ class HomePage extends State<MyApp> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
+            backgroundColor: Colors.white,
             children: [
               TextField(
+                decoration: InputDecoration(
+                    label: Text("Add Task"),
+                    hintText: "Anything",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide:
+                            const BorderSide(color: Colors.pinkAccent))),
                 autofocus: true,
                 controller: txt,
                 onChanged: (value) {
@@ -150,7 +138,9 @@ class HomePage extends State<MyApp> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   FloatingActionButton(
-                    child: const Icon(Icons.add),
+                    backgroundColor: Colors.white,
+                    elevation: 8,
+                    child: const Icon(Icons.add, color: Colors.black),
                     onPressed: () {
                       submit();
                       txt.clear();
@@ -173,17 +163,14 @@ class HomePage extends State<MyApp> {
           return SimpleDialog(
             children: [
               TextField(
-                keyboardType: TextInputType.number,
                 autofocus: true,
                 controller: txt,
-                onChanged: (a) {
-                  getint = a as int;
-                },
-              ),
-              TextField(
                 onChanged: (value) {
                   get = value;
                 },
+                // onSubmitted: (value) {
+                //   getx = value;
+                // },
               ),
               const SizedBox(
                 height: 10,
@@ -214,14 +201,13 @@ class HomePage extends State<MyApp> {
         builder: (BuildContext context) {
           return SimpleDialog(
             children: [
-              TextField(
-                autofocus: true,
-                keyboardType: TextInputType.number,
-                controller: txt,
-                onChanged: (value) {
-                  getint = value as int;
-                },
-              ),
+              Title(
+                  color: Colors.black,
+                  child: const Center(
+                    child: Text('Are you sure!',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600)),
+                  )),
               const SizedBox(
                 height: 10,
               ),
