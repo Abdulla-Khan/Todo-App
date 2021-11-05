@@ -32,17 +32,6 @@ class HomePage extends State<MyApp> {
             top: 40,
             left: 20,
           ),
-          Positioned(
-            child: FloatingActionButton(
-              child: const Icon(Icons.add, size: 20, color: Colors.white),
-              backgroundColor: Colors.pinkAccent,
-              onPressed: () {
-                add();
-              },
-            ),
-            top: 280,
-            right: 30,
-          ),
           DraggableScrollableSheet(
             maxChildSize: 0.85,
             builder: (BuildContext context, ScrollController scrollcontianer) {
@@ -87,6 +76,19 @@ class HomePage extends State<MyApp> {
                                         return SimpleDialog(
                                           children: [
                                             TextField(
+                                              decoration: InputDecoration(
+                                                  label:
+                                                      Text("Update Your Task"),
+                                                  hintText: "Anything",
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color: Colors
+                                                                  .pinkAccent))),
+                                              autofocus: true,
                                               controller: txt1,
                                               onChanged: (value) {
                                                 upd1 = value;
@@ -124,6 +126,17 @@ class HomePage extends State<MyApp> {
                       controller: scrollcontianer,
                       itemCount: lst.length,
                     )),
+                Positioned(
+                  child: FloatingActionButton(
+                    child: const Icon(Icons.add, size: 20, color: Colors.white),
+                    backgroundColor: Colors.pinkAccent,
+                    onPressed: () {
+                      add();
+                    },
+                  ),
+                  top: -10,
+                  right: 60,
+                ),
               ]);
             },
           )
@@ -185,55 +198,6 @@ class HomePage extends State<MyApp> {
                       submit();
                       txt.clear();
 
-                      Navigator.of(context, rootNavigator: true)
-                          .pop(HomePage());
-                    },
-                  ),
-                ],
-              ),
-            ],
-          );
-        });
-  }
-
-  update() {
-    setState(() {
-      lst[getint] = upd1;
-    });
-  }
-
-  edit() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            children: [
-              TextField(
-                autofocus: true,
-                controller: txt,
-                onChanged: (value) {
-                  getint = value as int;
-                },
-              ),
-              TextField(
-                controller: txt1,
-                onChanged: (value) {
-                  upd1 = value;
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    child: const Icon(Icons.update),
-                    onPressed: () {
-                      update();
-                      txt1.clear();
-                      txt.clear();
                       Navigator.of(context, rootNavigator: true)
                           .pop(HomePage());
                     },
