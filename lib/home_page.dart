@@ -56,6 +56,15 @@ class HomePage extends State<MyApp> {
                     child: ListView.builder(
                       itemBuilder: (context, index) {
                         return ListTile(
+                            leading: IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.greenAccent,
+                              ),
+                              onPressed: () {
+                                delete();
+                              },
+                            ),
                             title: Text(
                               "Task No ${index + 1}",
                               style: TextStyle(
@@ -69,12 +78,48 @@ class HomePage extends State<MyApp> {
                               ),
                             ),
                             trailing: IconButton(
-                              icon: const Icon(Icons.delete,
-                                  color: Colors.greenAccent),
-                              onPressed: () {
-                                delete();
-                              },
-                            ));
+                                icon: const Icon(Icons.update,
+                                    color: Colors.greenAccent),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return SimpleDialog(
+                                          children: [
+                                            TextField(
+                                              controller: txt1,
+                                              onChanged: (value) {
+                                                upd1 = value;
+                                              },
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                FloatingActionButton(
+                                                  child:
+                                                      const Icon(Icons.update),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      lst[index] = upd1;
+                                                    });
+                                                    txt1.clear();
+                                                    Navigator.of(context,
+                                                            rootNavigator: true)
+                                                        .pop(HomePage());
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                }));
                       },
                       controller: scrollcontianer,
                       itemCount: lst.length,
@@ -85,11 +130,13 @@ class HomePage extends State<MyApp> {
         ]));
   }
 
+  String upd1 = "";
   String get = '';
-  String getx = "";
   int getint = 0;
   List lst = [];
   TextEditingController txt = TextEditingController();
+  TextEditingController txt1 = TextEditingController();
+
   submit() {
     setState(() {
       lst.add(get);
@@ -99,13 +146,6 @@ class HomePage extends State<MyApp> {
   remove() {
     setState(() {
       lst.removeAt(getint);
-    });
-  }
-
-  update() {
-    setState(() {
-      String abc = submit();
-      abc.replaceAll(get, getx);
     });
   }
 
@@ -156,6 +196,12 @@ class HomePage extends State<MyApp> {
         });
   }
 
+  update() {
+    setState(() {
+      lst[getint] = upd1;
+    });
+  }
+
   edit() {
     showDialog(
         context: context,
@@ -166,11 +212,14 @@ class HomePage extends State<MyApp> {
                 autofocus: true,
                 controller: txt,
                 onChanged: (value) {
-                  get = value;
+                  getint = value as int;
                 },
-                // onSubmitted: (value) {
-                //   getx = value;
-                // },
+              ),
+              TextField(
+                controller: txt1,
+                onChanged: (value) {
+                  upd1 = value;
+                },
               ),
               const SizedBox(
                 height: 10,
@@ -183,6 +232,7 @@ class HomePage extends State<MyApp> {
                     child: const Icon(Icons.update),
                     onPressed: () {
                       update();
+                      txt1.clear();
                       txt.clear();
                       Navigator.of(context, rootNavigator: true)
                           .pop(HomePage());
